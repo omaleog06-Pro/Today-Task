@@ -1,120 +1,122 @@
 {
-  "theme_and_archetype": {
-    "domain": "Productivity / SaaS App",
-    "theme": "Context-dependent (Supports Light, Dark, Blue, Green)",
-    "archetype": "Soft Utility (Archetype 3) mixed with Swiss Data Clarity (Archetype 4)",
-    "emotional_tone": "Calm, focused, frictionless, and highly organized."
+  "project_name": "Today Task Redesign",
+  "theme_archetype": {
+    "primary": "Archetype 6 (Vibrant Play)",
+    "secondary": "Archetype 3 (Pastel & Soft) mixed with Neo-Brutalist elements for high visual impact",
+    "rationale": "The user requested a visually striking ('llamativa y vistosa') UI with playful typography ('Burbuja' and 'Dibujo'). A Neo-Brutalist approach with high-contrast, colorful themes makes the app immediately engaging and distinct from standard task managers, elevating it to top 1% design."
   },
   "typography": {
-    "strategy": "The Anti-Default Rule. We bypass generic Inter/Roboto for distinct, premium sans-serifs.",
-    "font_options": [
-      {
-        "name": "Modern",
-        "heading": "Outfit",
-        "body": "Plus Jakarta Sans"
-      },
-      {
-        "name": "Classic Clean",
-        "heading": "Work Sans",
-        "body": "DM Sans"
-      },
-      {
-        "name": "Technical",
-        "heading": "IBM Plex Sans",
-        "body": "IBM Plex Sans"
-      }
+    "import_urls": [
+      "https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap",
+      "https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700&display=swap",
+      "https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Comic+Neue:wght@400;700&display=swap"
     ],
-    "hierarchy": {
-      "h1": "text-4xl tracking-tight font-semibold",
-      "h2": "text-2xl tracking-tight font-medium",
-      "h3": "text-lg font-medium",
-      "body": "text-base leading-relaxed",
-      "small_labels": "text-xs tracking-[0.2em] uppercase font-bold"
+    "classic": {
+      "heading": "'Work Sans', sans-serif",
+      "body": "'DM Sans', sans-serif"
+    },
+    "burbuja": {
+      "heading": "'Fredoka', sans-serif",
+      "body": "'Nunito', sans-serif"
+    },
+    "dibujo": {
+      "heading": "'Caveat', cursive",
+      "body": "'Comic Neue', cursive"
+    },
+    "scale": {
+      "h1": "text-4xl sm:text-5xl lg:text-6xl tracking-tight font-bold",
+      "h2": "text-2xl sm:text-3xl lg:text-4xl font-semibold",
+      "body": "text-base sm:text-lg leading-relaxed"
     }
   },
-  "color_themes": {
-    "light": {
-      "name": "Claro",
-      "background": "#FAFAFA",
-      "card": "#FFFFFF",
-      "text": "#18181B",
-      "primary": "#18181B",
-      "muted": "#71717A",
-      "border": "#E4E4E7",
-      "reminder_indicator": "#F59E0B"
-    },
-    "dark": {
-      "name": "Oscuro",
-      "background": "#09090B",
-      "card": "#18181B",
-      "text": "#FAFAFA",
-      "primary": "#FAFAFA",
-      "muted": "#A1A1AA",
-      "border": "#27272A",
-      "reminder_indicator": "#FBBF24"
-    },
-    "corporate_blue": {
-      "name": "Azul Corporativo",
-      "background": "#0F172A",
-      "card": "#1E293B",
-      "text": "#F8FAFC",
-      "primary": "#3B82F6",
-      "muted": "#94A3B8",
-      "border": "#334155",
-      "reminder_indicator": "#F59E0B"
-    },
-    "nature_green": {
-      "name": "Verde Naturaleza",
-      "background": "#F2F5F0",
-      "card": "#FFFFFF",
-      "text": "#2C3A29",
-      "primary": "#4A7C59",
-      "muted": "#7A8A77",
-      "border": "#D5DDD3",
-      "reminder_indicator": "#D97706"
+  "color_palette": {
+    "themes": {
+      "light": {
+        "background": "#FFFBEB",
+        "card": "#FFFFFF",
+        "text": "#0F172A",
+        "primary": "#EC4899",
+        "secondary": "#3B82F6",
+        "muted": "#94A3B8",
+        "border": "#0F172A",
+        "reminder_indicator": "#F59E0B",
+        "shadow": "4px 4px 0px 0px rgba(15,23,42,1)",
+        "hover_shadow": "6px 6px 0px 0px rgba(15,23,42,1)"
+      },
+      "dark": {
+        "background": "#09090B",
+        "card": "#18181B",
+        "text": "#FAFAFA",
+        "primary": "#CCFF00",
+        "secondary": "#A855F7",
+        "muted": "#A1A1AA",
+        "border": "#3F3F46",
+        "reminder_indicator": "#FBBF24",
+        "shadow": "0px 4px 16px rgba(204,255,0,0.15)",
+        "hover_shadow": "0px 8px 32px rgba(204,255,0,0.25)"
+      },
+      "corporate_blue": {
+        "background": "#0F172A",
+        "card": "#1E293B",
+        "text": "#F8FAFC",
+        "primary": "#38BDF8",
+        "secondary": "#F43F5E",
+        "muted": "#94A3B8",
+        "border": "#38BDF8",
+        "reminder_indicator": "#FDE047",
+        "shadow": "4px 4px 0px 0px rgba(56,189,248,0.5)",
+        "hover_shadow": "6px 6px 0px 0px rgba(56,189,248,0.8)"
+      },
+      "nature_green": {
+        "background": "#F0FDF4",
+        "card": "#FFFFFF",
+        "text": "#064E3B",
+        "primary": "#10B981",
+        "secondary": "#D97706",
+        "muted": "#6EE7B7",
+        "border": "#064E3B",
+        "reminder_indicator": "#F59E0B",
+        "shadow": "4px 4px 0px 0px rgba(6,78,59,1)",
+        "hover_shadow": "6px 6px 0px 0px rgba(6,78,59,1)"
+      }
     }
   },
   "layout_and_spacing": {
-    "philosophy": "Generous Spacing (E1 standard). Containers must have p-6 or p-8.",
-    "grid_system": "The Control Room Grid (density, clarity, scanability).",
-    "structure": "Sidebar for themes/fonts settings (col-span-1), Main area for tasks (col-span-3) for desktop.",
-    "card_style": "Combination of soft shadow cards (shadow-sm, rounded-xl) for main sections, and flat list items with bottom borders (border-b) for tasks to ensure maximum legibility."
+    "container": "max-w-4xl mx-auto p-4 sm:p-6 lg:p-8 min-h-screen",
+    "header": "flex justify-between items-center mb-12 p-6 rounded-2xl border-2 border-border bg-card shadow-[var(--shadow)]",
+    "bento_grid": "Grid layout for tasks using gap-6. If empty, center the empty state.",
+    "task_item": "p-5 rounded-xl border-2 border-border bg-card shadow-[var(--shadow)] transition-all duration-200 hover:-translate-y-1 hover:shadow-[var(--hover-shadow)] flex flex-col sm:flex-row gap-4 items-start sm:items-center relative overflow-hidden"
   },
-  "components_strategy": {
-    "task_input": "Shadcn Form/Input customized. Flat style, no harsh borders, subtle focus ring (ring-2 ring-primary/20).",
-    "task_list": "HTML semantic list. Each task is a flex row. Hover effect: slight translate-x (translate-x-1) and background tint.",
-    "task_completion": "Shadcn Checkbox, slightly enlarged (h-5 w-5), smooth color transition.",
-    "task_edit_modal": "Shadcn Dialog. Glassmorphism backdrop (backdrop-blur-sm bg-black/40). Clean card inside with p-8.",
-    "reminder_system": "Shadcn Popover + Calendar for date picking. Small bell icon next to task name if reminder exists.",
-    "upcoming_indicator": "A glowing dot (relative flex h-3 w-3) or an accent left-border (border-l-4 border-amber-500) for tasks due within 24h.",
-    "data_testid": "MANDATORY on all buttons, inputs, toggles (e.g., data-testid='task-complete-checkbox', data-testid='theme-selector')."
-  },
-  "motion_and_interactions": {
-    "hover_states": "All interactive elements must shift visually. Buttons: slight lift (-translate-y-px) and shadow-sm.",
-    "list_animations": "Staggered entrance for tasks using Framer Motion (opacity 0 to 1, y: 10 to 0, staggerChildren: 0.1).",
-    "completion": "Strike-through animation (width 0 to 100%) and text fade (opacity-50) when task is checked."
-  },
-  "media_and_assets": {
-    "icons": "lucide-react for all standard icons (Bell, Check, Trash, Settings, Calendar, Clock).",
-    "images": {
-      "empty_state_light": {
-        "url": "https://images.unsplash.com/photo-1658241817660-b0c1ad84313d?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2OTF8MHwxfHNlYXJjaHwxfHxjYWxtJTIwYWJzdHJhY3QlMjBiYWNrZ3JvdW5kJTIwbWluaW1hbHxlbnwwfHx8fDE3NzYzOTA0NTF8MA&ixlib=rb-4.1.0&q=85",
-        "description": "Calm abstract minimal background for light/dark theme empty states"
-      },
-      "empty_state_green": {
-        "url": "https://images.unsplash.com/photo-1701402276774-60fc72f9b284?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzMzl8MHwxfHNlYXJjaHwyfHxuYXR1cmUlMjBncmVlbiUyMGxlYWYlMjBtYWNybyUyMGFic3RyYWN0fGVufDB8fHx8MTc3NjM5MDQ1MHww&ixlib=rb-4.1.0&q=85",
-        "description": "Macro green leaf abstract for nature theme empty states"
-      }
+  "components": {
+    "settings_modal": {
+      "type": "Modal Overlay",
+      "accessibility": "Accessible via Gear icon button. Hidden by default. Wraps settings content.",
+      "styles": "fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4",
+      "content_styles": "bg-card w-full max-w-md rounded-2xl border-4 border-border shadow-[var(--hover-shadow)] p-8 relative flex flex-col gap-6",
+      "close_button": "absolute top-4 right-4 text-muted hover:text-text bg-background border-2 border-border rounded-full p-2 transition-transform hover:scale-110",
+      "grid": "grid grid-cols-2 gap-4"
+    },
+    "task_input": {
+      "form": "flex flex-col sm:flex-row gap-4 mb-10 w-full",
+      "input": "flex-1 p-4 rounded-xl border-2 border-border bg-card text-text placeholder-muted focus:outline-none focus:ring-4 focus:ring-primary/20 shadow-[var(--shadow)] text-lg font-medium",
+      "datetime": "p-4 rounded-xl border-2 border-border bg-card text-text focus:outline-none shadow-[var(--shadow)]",
+      "button": "px-8 py-4 rounded-xl border-2 border-border bg-primary text-card font-bold text-lg hover:-translate-y-1 transition-transform shadow-[var(--shadow)] flex items-center gap-2 justify-center cursor-pointer"
+    },
+    "task_list": {
+      "container": "flex flex-col gap-5",
+      "empty_state": "flex flex-col items-center justify-center py-24 text-center bg-card border-4 border-border border-dashed rounded-3xl opacity-80",
+      "checkbox": "w-6 h-6 rounded-full border-2 border-border text-primary focus:ring-primary cursor-pointer accent-primary shrink-0",
+      "actions": "flex gap-2 ml-auto shrink-0"
     }
   },
   "instructions_to_main_agent": [
-    "Build 'Today Task' as a React app using Tailwind CSS and Shadcn UI components.",
-    "Implement the 4 requested themes (Light, Dark, Corporate Blue, Nature Green) using CSS variables mapped to Tailwind classes.",
-    "Implement a font switcher that toggles between the 3 defined font options (Modern, Classic Clean, Technical). Override global styles dynamically.",
-    "Use Framer Motion for smooth task list entrance and completion animations.",
-    "For task storage, use the browser's localStorage API.",
-    "Ensure the 'Upcoming Task Indicator' prominently highlights tasks due soon with the defined reminder_indicator color.",
-    "Do NOT use Inter or Roboto for headings; use the E1 specified fonts (Outfit, Work Sans, IBM Plex Sans).",
-    "Add 'data-testid' attributes to all interactive elements for robust testing."
+    "1. In App.js, replace the `FONTS` array. Keep 'classic' (Work Sans/DM Sans), remove 'modern' and 'technical', and add 'burbuja' (Fredoka/Nunito) and 'dibujo' (Caveat/Comic Neue). Update the CSS imports in index.css accordingly.",
+    "2. Remove the `<aside>` panel component that was used for settings. Create a new `SettingsModal` component that acts as a centered modal (dialog overlay) wrapping the theme and font selectors.",
+    "3. Add a single `<button>` with a `<Settings>` (Gear) icon in the `<header>` that opens the `SettingsModal`. This replaces the mobile-only setting toggle.",
+    "4. Completely revamp `index.css` and `App.css` variables to use the striking Neo-Brutalist color variables provided in `color_palette.themes`. The app should look highly vibrant, tactile, and fun.",
+    "5. Use CSS custom properties for shadows (`--shadow`, `--hover-shadow`) to give the inputs and cards a 'pop-out' brutalist feel, adjusting based on the active theme.",
+    "6. Apply generous padding (`p-6` or `p-8`) to containers. Increase font sizes for inputs and buttons to make them feel bold and approachable.",
+    "7. Ensure ALL interactive elements (buttons, inputs, checkboxes, toggles) have descriptive `data-testid` attributes (e.g., `data-testid='settings-btn'`, `data-testid='theme-light'`).",
+    "8. Keep the existing 4 theme IDs (`light`, `dark`, `corporate_blue`, `nature_green`) so local storage works seamlessly, but style them according to the new vibrant definitions."
   ]
 }
