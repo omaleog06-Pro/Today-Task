@@ -1,0 +1,120 @@
+{
+  "theme_and_archetype": {
+    "domain": "Productivity / SaaS App",
+    "theme": "Context-dependent (Supports Light, Dark, Blue, Green)",
+    "archetype": "Soft Utility (Archetype 3) mixed with Swiss Data Clarity (Archetype 4)",
+    "emotional_tone": "Calm, focused, frictionless, and highly organized."
+  },
+  "typography": {
+    "strategy": "The Anti-Default Rule. We bypass generic Inter/Roboto for distinct, premium sans-serifs.",
+    "font_options": [
+      {
+        "name": "Modern",
+        "heading": "Outfit",
+        "body": "Plus Jakarta Sans"
+      },
+      {
+        "name": "Classic Clean",
+        "heading": "Work Sans",
+        "body": "DM Sans"
+      },
+      {
+        "name": "Technical",
+        "heading": "IBM Plex Sans",
+        "body": "IBM Plex Sans"
+      }
+    ],
+    "hierarchy": {
+      "h1": "text-4xl tracking-tight font-semibold",
+      "h2": "text-2xl tracking-tight font-medium",
+      "h3": "text-lg font-medium",
+      "body": "text-base leading-relaxed",
+      "small_labels": "text-xs tracking-[0.2em] uppercase font-bold"
+    }
+  },
+  "color_themes": {
+    "light": {
+      "name": "Claro",
+      "background": "#FAFAFA",
+      "card": "#FFFFFF",
+      "text": "#18181B",
+      "primary": "#18181B",
+      "muted": "#71717A",
+      "border": "#E4E4E7",
+      "reminder_indicator": "#F59E0B"
+    },
+    "dark": {
+      "name": "Oscuro",
+      "background": "#09090B",
+      "card": "#18181B",
+      "text": "#FAFAFA",
+      "primary": "#FAFAFA",
+      "muted": "#A1A1AA",
+      "border": "#27272A",
+      "reminder_indicator": "#FBBF24"
+    },
+    "corporate_blue": {
+      "name": "Azul Corporativo",
+      "background": "#0F172A",
+      "card": "#1E293B",
+      "text": "#F8FAFC",
+      "primary": "#3B82F6",
+      "muted": "#94A3B8",
+      "border": "#334155",
+      "reminder_indicator": "#F59E0B"
+    },
+    "nature_green": {
+      "name": "Verde Naturaleza",
+      "background": "#F2F5F0",
+      "card": "#FFFFFF",
+      "text": "#2C3A29",
+      "primary": "#4A7C59",
+      "muted": "#7A8A77",
+      "border": "#D5DDD3",
+      "reminder_indicator": "#D97706"
+    }
+  },
+  "layout_and_spacing": {
+    "philosophy": "Generous Spacing (E1 standard). Containers must have p-6 or p-8.",
+    "grid_system": "The Control Room Grid (density, clarity, scanability).",
+    "structure": "Sidebar for themes/fonts settings (col-span-1), Main area for tasks (col-span-3) for desktop.",
+    "card_style": "Combination of soft shadow cards (shadow-sm, rounded-xl) for main sections, and flat list items with bottom borders (border-b) for tasks to ensure maximum legibility."
+  },
+  "components_strategy": {
+    "task_input": "Shadcn Form/Input customized. Flat style, no harsh borders, subtle focus ring (ring-2 ring-primary/20).",
+    "task_list": "HTML semantic list. Each task is a flex row. Hover effect: slight translate-x (translate-x-1) and background tint.",
+    "task_completion": "Shadcn Checkbox, slightly enlarged (h-5 w-5), smooth color transition.",
+    "task_edit_modal": "Shadcn Dialog. Glassmorphism backdrop (backdrop-blur-sm bg-black/40). Clean card inside with p-8.",
+    "reminder_system": "Shadcn Popover + Calendar for date picking. Small bell icon next to task name if reminder exists.",
+    "upcoming_indicator": "A glowing dot (relative flex h-3 w-3) or an accent left-border (border-l-4 border-amber-500) for tasks due within 24h.",
+    "data_testid": "MANDATORY on all buttons, inputs, toggles (e.g., data-testid='task-complete-checkbox', data-testid='theme-selector')."
+  },
+  "motion_and_interactions": {
+    "hover_states": "All interactive elements must shift visually. Buttons: slight lift (-translate-y-px) and shadow-sm.",
+    "list_animations": "Staggered entrance for tasks using Framer Motion (opacity 0 to 1, y: 10 to 0, staggerChildren: 0.1).",
+    "completion": "Strike-through animation (width 0 to 100%) and text fade (opacity-50) when task is checked."
+  },
+  "media_and_assets": {
+    "icons": "lucide-react for all standard icons (Bell, Check, Trash, Settings, Calendar, Clock).",
+    "images": {
+      "empty_state_light": {
+        "url": "https://images.unsplash.com/photo-1658241817660-b0c1ad84313d?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2OTF8MHwxfHNlYXJjaHwxfHxjYWxtJTIwYWJzdHJhY3QlMjBiYWNrZ3JvdW5kJTIwbWluaW1hbHxlbnwwfHx8fDE3NzYzOTA0NTF8MA&ixlib=rb-4.1.0&q=85",
+        "description": "Calm abstract minimal background for light/dark theme empty states"
+      },
+      "empty_state_green": {
+        "url": "https://images.unsplash.com/photo-1701402276774-60fc72f9b284?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzMzl8MHwxfHNlYXJjaHwyfHxuYXR1cmUlMjBncmVlbiUyMGxlYWYlMjBtYWNybyUyMGFic3RyYWN0fGVufDB8fHx8MTc3NjM5MDQ1MHww&ixlib=rb-4.1.0&q=85",
+        "description": "Macro green leaf abstract for nature theme empty states"
+      }
+    }
+  },
+  "instructions_to_main_agent": [
+    "Build 'Today Task' as a React app using Tailwind CSS and Shadcn UI components.",
+    "Implement the 4 requested themes (Light, Dark, Corporate Blue, Nature Green) using CSS variables mapped to Tailwind classes.",
+    "Implement a font switcher that toggles between the 3 defined font options (Modern, Classic Clean, Technical). Override global styles dynamically.",
+    "Use Framer Motion for smooth task list entrance and completion animations.",
+    "For task storage, use the browser's localStorage API.",
+    "Ensure the 'Upcoming Task Indicator' prominently highlights tasks due soon with the defined reminder_indicator color.",
+    "Do NOT use Inter or Roboto for headings; use the E1 specified fonts (Outfit, Work Sans, IBM Plex Sans).",
+    "Add 'data-testid' attributes to all interactive elements for robust testing."
+  ]
+}
