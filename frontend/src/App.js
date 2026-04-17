@@ -1,19 +1,19 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import "@/App.css";
-import { Settings, Plus, Calendar, Clock, Bell, Trash2, Edit2, X, CheckCircle, ArrowUpDown, ListTodo } from "lucide-react";
+import { Settings, Plus, Calendar, Clock, Bell, Trash2, Edit2, X, ArrowUpDown, ListTodo, Sparkles } from "lucide-react";
 
 // Constants
 const THEMES = [
-  { id: "light", name: "Claro" },
-  { id: "dark", name: "Oscuro" },
-  { id: "corporate_blue", name: "Azul Corporativo" },
-  { id: "nature_green", name: "Verde Naturaleza" },
+  { id: "light", name: "Claro", emoji: "☀️" },
+  { id: "dark", name: "Oscuro", emoji: "🌙" },
+  { id: "corporate_blue", name: "Azul", emoji: "💎" },
+  { id: "nature_green", name: "Verde", emoji: "🌿" },
 ];
 
 const FONTS = [
-  { id: "modern", name: "Moderna", preview: "Outfit" },
-  { id: "classic", name: "Clásica", preview: "Work Sans" },
-  { id: "technical", name: "Técnica", preview: "IBM Plex Sans" },
+  { id: "classic", name: "Clásica", preview: "Elegante y profesional", family: "'Work Sans', sans-serif" },
+  { id: "burbuja", name: "Burbuja", preview: "Divertida y redonda", family: "'Fredoka', sans-serif" },
+  { id: "dibujo", name: "Dibujo", preview: "Estilo manuscrito", family: "'Caveat', cursive" },
 ];
 
 // Helper functions
@@ -39,49 +39,56 @@ const formatDateTime = (dateString) => {
   });
 };
 
-// SettingsPanel Component
-const SettingsPanel = ({ theme, setTheme, font, setFont, isMobile, onClose }) => (
-  <aside className={isMobile ? "settings-panel-mobile" : "settings-panel"} data-testid="settings-panel">
-    {isMobile && (
-      <button className="close-settings" onClick={onClose} data-testid="close-settings-btn">
-        <X size={24} />
-      </button>
-    )}
-    
-    <div className="settings-section">
-      <span className="settings-label">Tema</span>
-      <div className="theme-grid">
-        {THEMES.map((t) => (
-          <button
-            key={t.id}
-            className={`theme-button ${theme === t.id ? "active" : ""}`}
-            onClick={() => setTheme(t.id)}
-            data-testid={`theme-${t.id}`}
-          >
-            {t.name}
-          </button>
-        ))}
+// Settings Modal Component
+const SettingsModal = ({ isOpen, onClose, theme, setTheme, font, setFont }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="modal-overlay" onClick={onClose} data-testid="settings-modal">
+      <div className="modal-content modal-enter" onClick={(e) => e.stopPropagation()}>
+        <button className="modal-close" onClick={onClose} data-testid="close-settings-btn">
+          <X size={20} />
+        </button>
+        
+        <h2 className="modal-title">Configuración</h2>
+        
+        <div className="settings-section">
+          <span className="settings-label">Tema</span>
+          <div className="theme-grid">
+            {THEMES.map((t) => (
+              <button
+                key={t.id}
+                className={`theme-button ${theme === t.id ? "active" : ""}`}
+                onClick={() => setTheme(t.id)}
+                data-testid={`theme-${t.id}`}
+              >
+                <span>{t.emoji}</span> {t.name}
+              </button>
+            ))}
+          </div>
+        </div>
+        
+        <div className="settings-section">
+          <span className="settings-label">Tipografía</span>
+          <div className="font-grid">
+            {FONTS.map((f) => (
+              <button
+                key={f.id}
+                className={`font-button ${font === f.id ? "active" : ""}`}
+                onClick={() => setFont(f.id)}
+                style={{ fontFamily: f.family }}
+                data-testid={`font-${f.id}`}
+              >
+                <span>{f.name}</span>
+                <span className="font-preview">{f.preview}</span>
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
-    
-    <div className="settings-section">
-      <span className="settings-label">Tipografía</span>
-      <div className="font-list">
-        {FONTS.map((f) => (
-          <button
-            key={f.id}
-            className={`font-button ${font === f.id ? "active" : ""}`}
-            onClick={() => setFont(f.id)}
-            style={{ fontFamily: f.preview }}
-            data-testid={`font-${f.id}`}
-          >
-            {f.name}
-          </button>
-        ))}
-      </div>
-    </div>
-  </aside>
-);
+  );
+};
 
 // TaskForm Component
 const TaskForm = ({ onAdd }) => {
@@ -107,27 +114,25 @@ const TaskForm = ({ onAdd }) => {
 
   return (
     <form className="task-form" onSubmit={handleSubmit} data-testid="task-form">
-      <div className="form-row">
-        <input
-          type="text"
-          className="task-input"
-          placeholder="¿Qué necesitas hacer hoy?"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          data-testid="task-input"
-        />
-        <input
-          type="datetime-local"
-          className="datetime-input"
-          value={datetime}
-          onChange={(e) => setDatetime(e.target.value)}
-          data-testid="datetime-input"
-        />
-        <button type="submit" className="add-button" data-testid="add-task-btn">
-          <Plus size={18} />
-          Agregar
-        </button>
-      </div>
+      <input
+        type="text"
+        className="task-input"
+        placeholder="¿Qué necesitas hacer hoy?"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        data-testid="task-input"
+      />
+      <input
+        type="datetime-local"
+        className="datetime-input"
+        value={datetime}
+        onChange={(e) => setDatetime(e.target.value)}
+        data-testid="datetime-input"
+      />
+      <button type="submit" className="add-button bounce-hover" data-testid="add-task-btn">
+        <Plus size={20} />
+        Agregar
+      </button>
     </form>
   );
 };
@@ -137,7 +142,7 @@ const TaskItem = ({ task, onToggle, onDelete, onEdit }) => {
   const upcoming = isUpcoming(task.datetime);
   
   return (
-    <li 
+    <div 
       className={`task-item task-enter ${task.completed ? "completed" : ""} ${upcoming ? "upcoming" : ""}`}
       data-testid={`task-item-${task.id}`}
     >
@@ -150,14 +155,12 @@ const TaskItem = ({ task, onToggle, onDelete, onEdit }) => {
       />
       
       <div className="task-content">
-        <p className={`task-title ${task.completed ? "task-completed" : ""}`}>
-          <span className="task-title">{task.title}</span>
-        </p>
+        <p className="task-title-text">{task.title}</p>
         
         <div className="task-meta">
           {task.datetime && (
             <span className={`task-datetime ${upcoming ? "upcoming" : ""}`}>
-              <Calendar size={12} />
+              <Calendar size={14} />
               {formatDateTime(task.datetime)}
             </span>
           )}
@@ -178,7 +181,7 @@ const TaskItem = ({ task, onToggle, onDelete, onEdit }) => {
           title="Editar"
           data-testid={`edit-task-${task.id}`}
         >
-          <Edit2 size={16} />
+          <Edit2 size={18} />
         </button>
         <button 
           className="action-button delete" 
@@ -186,10 +189,10 @@ const TaskItem = ({ task, onToggle, onDelete, onEdit }) => {
           title="Eliminar"
           data-testid={`delete-task-${task.id}`}
         >
-          <Trash2 size={16} />
+          <Trash2 size={18} />
         </button>
       </div>
-    </li>
+    </div>
   );
 };
 
@@ -212,11 +215,15 @@ const EditModal = ({ task, onSave, onClose }) => {
   };
 
   return (
-    <div className="modal-overlay" onClick={onClose} data-testid="edit-modal">
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+    <div className="modal-overlay edit-modal" onClick={onClose} data-testid="edit-modal">
+      <div className="modal-content modal-enter" onClick={(e) => e.stopPropagation()}>
+        <button className="modal-close" onClick={onClose} data-testid="close-edit-btn">
+          <X size={20} />
+        </button>
+        
         <h2 className="modal-title">Editar Tarea</h2>
         
-        <form className="modal-form" onSubmit={handleSubmit}>
+        <form className="edit-form" onSubmit={handleSubmit}>
           <div className="form-group">
             <label className="form-label">Nombre de la tarea</label>
             <input
@@ -241,7 +248,7 @@ const EditModal = ({ task, onSave, onClose }) => {
             />
           </div>
           
-          <div className="form-group" style={{ flexDirection: 'row', alignItems: 'center', gap: '0.75rem' }}>
+          <div className="form-group form-checkbox-group">
             <input
               type="checkbox"
               id="reminder-toggle"
@@ -260,7 +267,7 @@ const EditModal = ({ task, onSave, onClose }) => {
               Cancelar
             </button>
             <button type="submit" className="save-button" data-testid="save-edit-btn">
-              Guardar cambios
+              Guardar
             </button>
           </div>
         </form>
@@ -272,13 +279,13 @@ const EditModal = ({ task, onSave, onClose }) => {
 // Notification Component
 const Notification = ({ notification, onClose }) => (
   <div className="notification-toast" data-testid="notification-toast">
-    <Bell className="notification-icon" size={20} />
+    <Bell className="notification-icon" size={24} />
     <div className="notification-content">
       <p className="notification-title">¡Recordatorio!</p>
       <p className="notification-message">{notification.title}</p>
     </div>
     <button className="notification-close" onClick={onClose} data-testid="close-notification">
-      <X size={16} />
+      <X size={18} />
     </button>
   </div>
 );
@@ -288,10 +295,10 @@ function App() {
   // State
   const [tasks, setTasks] = useState([]);
   const [theme, setTheme] = useState("light");
-  const [font, setFont] = useState("modern");
+  const [font, setFont] = useState("classic");
   const [editingTask, setEditingTask] = useState(null);
   const [notification, setNotification] = useState(null);
-  const [showMobileSettings, setShowMobileSettings] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
   const [sortByDate, setSortByDate] = useState(false);
   
   const notifiedTasksRef = useRef(new Set());
@@ -350,7 +357,7 @@ function App() {
             JSON.stringify([...notifiedTasksRef.current])
           );
           
-          // Play notification sound if supported
+          // Browser notification
           if ("Notification" in window && Notification.permission === "granted") {
             new Notification("Today Task - Recordatorio", {
               body: task.title,
@@ -372,7 +379,7 @@ function App() {
   // Set up reminder interval
   useEffect(() => {
     checkReminders();
-    const interval = setInterval(checkReminders, 30000); // Check every 30 seconds
+    const interval = setInterval(checkReminders, 30000);
     return () => clearInterval(interval);
   }, [checkReminders]);
 
@@ -416,45 +423,39 @@ function App() {
 
   return (
     <div className="app-container" data-testid="app-container">
-      {/* Header */}
-      <header className="app-header">
-        <div className="header-content">
-          <h1 className="app-title" data-testid="app-title">Today Task</h1>
+      <div className="app-content">
+        {/* Header */}
+        <header className="app-header">
+          <h1 className="app-title" data-testid="app-title">
+            <Sparkles size={28} style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} />
+            Today Task
+          </h1>
           <button
-            className="settings-toggle lg:hidden"
-            onClick={() => setShowMobileSettings(true)}
-            data-testid="mobile-settings-toggle"
+            className="settings-btn"
+            onClick={() => setShowSettings(true)}
+            data-testid="settings-btn"
+            title="Configuración"
           >
             <Settings size={24} />
           </button>
-        </div>
-      </header>
+        </header>
 
-      {/* Main Content */}
-      <main className="main-layout">
-        {/* Desktop Settings Panel */}
-        <div className="hidden lg:block">
-          <SettingsPanel
-            theme={theme}
-            setTheme={setTheme}
-            font={font}
-            setFont={setFont}
-          />
-        </div>
+        {/* Task Form */}
+        <TaskForm onAdd={addTask} />
 
-        {/* Tasks Section */}
-        <div className="tasks-section">
-          {/* Task Form */}
-          <TaskForm onAdd={addTask} />
-
-          {/* Sort Controls */}
+        {/* Controls Bar */}
+        <div className="controls-bar">
+          <div className="task-counter" data-testid="task-count">
+            {pendingCount} pendientes · {completedCount} completadas
+          </div>
+          
           <div className="sort-controls">
             <button
               className={`sort-button ${!sortByDate ? "active" : ""}`}
               onClick={() => setSortByDate(false)}
               data-testid="sort-recent"
             >
-              <Clock size={14} />
+              <Clock size={16} />
               Recientes
             </button>
             <button
@@ -462,55 +463,45 @@ function App() {
               onClick={() => setSortByDate(true)}
               data-testid="sort-date"
             >
-              <ArrowUpDown size={14} />
+              <ArrowUpDown size={16} />
               Por fecha
             </button>
           </div>
-
-          {/* Task List */}
-          <div className="task-list" data-testid="task-list">
-            <div className="task-list-header">
-              <span className="task-count" data-testid="task-count">
-                {pendingCount} pendientes · {completedCount} completadas
-              </span>
-            </div>
-
-            {sortedTasks.length > 0 ? (
-              <ul className="task-items">
-                {sortedTasks.map((task) => (
-                  <TaskItem
-                    key={task.id}
-                    task={task}
-                    onToggle={toggleTask}
-                    onDelete={deleteTask}
-                    onEdit={setEditingTask}
-                  />
-                ))}
-              </ul>
-            ) : (
-              <div className="empty-state" data-testid="empty-state">
-                <ListTodo className="empty-icon" size={48} />
-                <h3 className="empty-title">No hay tareas</h3>
-                <p className="empty-description">
-                  Agrega tu primera tarea para comenzar a organizar tu día
-                </p>
-              </div>
-            )}
-          </div>
         </div>
-      </main>
 
-      {/* Mobile Settings Panel */}
-      {showMobileSettings && (
-        <SettingsPanel
-          theme={theme}
-          setTheme={setTheme}
-          font={font}
-          setFont={setFont}
-          isMobile={true}
-          onClose={() => setShowMobileSettings(false)}
-        />
-      )}
+        {/* Task List */}
+        {sortedTasks.length > 0 ? (
+          <div className="task-list" data-testid="task-list">
+            {sortedTasks.map((task) => (
+              <TaskItem
+                key={task.id}
+                task={task}
+                onToggle={toggleTask}
+                onDelete={deleteTask}
+                onEdit={setEditingTask}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="empty-state" data-testid="empty-state">
+            <ListTodo className="empty-icon" size={64} />
+            <h3 className="empty-title">¡Sin tareas!</h3>
+            <p className="empty-description">
+              Agrega tu primera tarea y empieza a organizar tu día
+            </p>
+          </div>
+        )}
+      </div>
+
+      {/* Settings Modal */}
+      <SettingsModal
+        isOpen={showSettings}
+        onClose={() => setShowSettings(false)}
+        theme={theme}
+        setTheme={setTheme}
+        font={font}
+        setFont={setFont}
+      />
 
       {/* Edit Modal */}
       {editingTask && (
