@@ -6,10 +6,8 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Theme Variables */
 :root {
-  /* Light Theme (Default) - Vibrant Play */
-  --background: #FFFBEB;
+  --background: #FFFFFF;
   --card: #FFFFFF;
   --text: #0F172A;
   --primary: #EC4899;
@@ -19,13 +17,10 @@
   --reminder-indicator: #F59E0B;
   --shadow: 4px 4px 0px 0px rgba(15,23,42,1);
   --hover-shadow: 6px 6px 0px 0px rgba(15,23,42,1);
-  
-  /* Font Family */
   --font-heading: 'Work Sans', sans-serif;
   --font-body: 'DM Sans', sans-serif;
 }
 
-/* Dark Theme */
 [data-theme="dark"] {
   --background: #09090B;
   --card: #18181B;
@@ -39,7 +34,6 @@
   --hover-shadow: 0px 8px 32px rgba(204,255,0,0.25);
 }
 
-/* Corporate Blue Theme */
 [data-theme="corporate_blue"] {
   --background: #0F172A;
   --card: #1E293B;
@@ -53,7 +47,6 @@
   --hover-shadow: 6px 6px 0px 0px rgba(56,189,248,0.8);
 }
 
-/* Nature Green Theme */
 [data-theme="nature_green"] {
   --background: #F0FDF4;
   --card: #FFFFFF;
@@ -67,21 +60,9 @@
   --hover-shadow: 6px 6px 0px 0px rgba(6,78,59,1);
 }
 
-/* Font Options */
-[data-font="classic"] {
-  --font-heading: 'Work Sans', sans-serif;
-  --font-body: 'DM Sans', sans-serif;
-}
-
-[data-font="burbuja"] {
-  --font-heading: 'Fredoka', sans-serif;
-  --font-body: 'Nunito', sans-serif;
-}
-
-[data-font="dibujo"] {
-  --font-heading: 'Caveat', cursive;
-  --font-body: 'Comic Neue', cursive;
-}
+[data-font="classic"] { --font-heading: 'Work Sans', sans-serif; --font-body: 'DM Sans', sans-serif; }
+[data-font="burbuja"] { --font-heading: 'Fredoka', sans-serif; --font-body: 'Nunito', sans-serif; }
+[data-font="dibujo"] { --font-heading: 'Caveat', cursive; --font-body: 'Comic Neue', cursive; }
 
 body {
   margin: 0;
@@ -89,87 +70,21 @@ body {
   background-color: var(--background);
   color: var(--text);
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading);
-}
+h1, h2, h3, h4, h5, h6 { font-family: var(--font-heading); }
 
-/* Scrollbar Styling */
-::-webkit-scrollbar {
-  width: 10px;
-}
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--background); }
+::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
 
-::-webkit-scrollbar-track {
-  background: var(--background);
-}
+@keyframes fadeIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+@keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.6; } }
+@keyframes slideUp { from { opacity:0; transform: translateY(100%); } to { opacity:1; transform: translateY(0); } }
 
-::-webkit-scrollbar-thumb {
-  background: var(--primary);
-  border-radius: 5px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--secondary);
-}
-
-/* Animations */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes bounce {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-5px);
-  }
-}
-
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.8;
-    transform: scale(1.05);
-  }
-}
-
-.task-enter {
-  animation: fadeIn 0.4s ease-out forwards;
-}
-
-.modal-enter {
-  animation: slideIn 0.3s ease-out forwards;
-}
-
-.upcoming-pulse {
-  animation: pulse 2s ease-in-out infinite;
-}
-
-.bounce-hover:hover {
-  animation: bounce 0.4s ease-in-out;
-}
+.task-enter { animation: fadeIn 0.35s ease-out forwards; }
+.modal-enter { animation: slideIn 0.25s ease-out forwards; }
+.upcoming-pulse { animation: pulse 2s ease-in-out infinite; }
+.slide-up { animation: slideUp 0.4s ease-out forwards; }
