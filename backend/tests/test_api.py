@@ -116,14 +116,15 @@ class TestAuthenticatedEndpoints:
     def auth_session(self):
         """Create authenticated session"""
         session = requests.Session()
-        # Register a new test user
-        unique_email = f"test_auth_{int(time.time())}@test.com"
+        # Register a new test user with unique timestamp + random suffix
+        import random
+        unique_email = f"test_auth_{int(time.time())}_{random.randint(10000,99999)}@test.com"
         response = session.post(f"{BASE_URL}/api/auth/register", json={
             "email": unique_email,
             "password": "testpass123",
             "name": "Auth Test User"
         })
-        assert response.status_code == 200
+        assert response.status_code == 200, f"Registration failed: {response.text}"
         return session, unique_email
     
     def test_get_me_authenticated(self, auth_session):
@@ -159,7 +160,8 @@ class TestTasksCRUD:
     def auth_session(self):
         """Create authenticated session with test user"""
         session = requests.Session()
-        unique_email = f"test_tasks_{int(time.time())}@test.com"
+        import random
+        unique_email = f"test_tasks_{int(time.time())}_{random.randint(1000,9999)}@test.com"
         response = session.post(f"{BASE_URL}/api/auth/register", json={
             "email": unique_email,
             "password": "testpass123",
@@ -273,7 +275,8 @@ class TestUserPreferences:
     def auth_session(self):
         """Create authenticated session"""
         session = requests.Session()
-        unique_email = f"test_prefs_{int(time.time())}@test.com"
+        import random
+        unique_email = f"test_prefs_{int(time.time())}_{random.randint(1000,9999)}@test.com"
         session.post(f"{BASE_URL}/api/auth/register", json={
             "email": unique_email,
             "password": "testpass123",
@@ -307,7 +310,8 @@ class TestSubscription:
     def auth_session(self):
         """Create authenticated session"""
         session = requests.Session()
-        unique_email = f"test_sub_{int(time.time())}@test.com"
+        import random
+        unique_email = f"test_sub_{int(time.time())}_{random.randint(1000,9999)}@test.com"
         session.post(f"{BASE_URL}/api/auth/register", json={
             "email": unique_email,
             "password": "testpass123",
@@ -337,23 +341,36 @@ class TestBruteForceProtection:
     
     def test_lockout_after_failed_attempts(self):
         """Test account lockout after 5 failed attempts"""
+        import random
         session = requests.Session()
-        test_email = "admin@todaytask.com"
+        # Use a unique test email to avoid affecting other tests
+        test_email = f"bruteforce_test_{int(time.time())}_{random.randint(1000,9999)}@test.com"
         
-        # Make 5 failed attempts
+        # First register this user
+        reg_response = session.post(f"{BASE_URL}/api/auth/register", json={
+            "email": test_email,
+            "password": "correctpassword123",
+            "name": "Brute Force Test"
+        })
+        assert reg_response.status_code == 200
+        
+        # Logout to clear session
+        session.post(f"{BASE_URL}/api/auth/logout")
+        
+        # Make 5 failed attempts with wrong password
         for i in range(5):
             response = session.post(f"{BASE_URL}/api/auth/login", json={
                 "email": test_email,
                 "password": f"wrongpass{i}"
             })
-            assert response.status_code == 401
+            assert response.status_code == 401, f"Attempt {i+1} should return 401"
         
         # 6th attempt should be rate limited
         response = session.post(f"{BASE_URL}/api/auth/login", json={
             "email": test_email,
             "password": "wrongpass6"
         })
-        assert response.status_code == 429
+        assert response.status_code == 429, f"Expected 429 but got {response.status_code}"
         print("✓ Brute force protection working - account locked after 5 attempts")
 
 

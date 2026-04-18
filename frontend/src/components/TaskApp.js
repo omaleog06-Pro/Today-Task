@@ -1,12 +1,13 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useAuth } from "@/App";
 import axios from "axios";
-import { Settings, Plus, Calendar, Clock, Bell, Trash2, Edit2, X, ArrowUpDown, ListTodo, Sparkles, Volume2, VolumeX, ChevronDown, ChevronUp, LogOut, Crown } from "lucide-react";
+import { Settings, Plus, Calendar, Clock, Bell, Trash2, Edit2, X, ArrowUpDown, ListTodo, Sparkles, Volume2, VolumeX, ChevronDown, ChevronUp, LogOut, Crown, BellRing } from "lucide-react";
 import DateTimePicker from "@/components/DateTimePicker";
 import SettingsModal from "@/components/SettingsModal";
 import EditModal from "@/components/EditModal";
 import AdBanner from "@/components/AdBanner";
 import SubscriptionModal from "@/components/SubscriptionModal";
+import { sendTasksToSW, clearReminderFromSW, onSWMessage, getNotificationPermission, requestNotificationPermission } from "@/utils/serviceWorker";
 
 const FILTERS = [
   { id: "all", name: "Todas" },
@@ -68,6 +69,7 @@ export default function TaskApp() {
   const [soundEnabled, setSoundEnabled] = useState(user?.preferences?.sound_enabled !== false);
   const [alarmSound, setAlarmSound] = useState(user?.preferences?.alarm_sound || "gentle-wake");
   const notifiedRef = useRef(new Set());
+  const [notifPermission, setNotifPermission] = useState(getNotificationPermission());
 
   // Load tasks
   useEffect(() => {
@@ -79,6 +81,35 @@ export default function TaskApp() {
     };
     loadTasks();
   }, [API]);
+
+  // Sync tasks to Service Worker whenever tasks change
+  useEffect(() => {
+    sendTasksToSW(tasks);
+  }, [tasks]);
+
+  // Listen for SW messages (REMINDER_FIRED, COMPLETE_TASK)
+  useEffect(() => {
+    const unsubscribe = onSWMessage((msg) => {
+      if (msg.type === 'REMINDER_FIRED') {
+        const { id, title, notification_type } = msg.payload;
+        if (!notifiedRef.current.has(id)) {
+          notifiedRef.current.add(id);
+          // Play alarm sound if applicable
+          const nType = notification_type || 'both';
+          if ((nType === 'alarm' || nType === 'both') && soundEnabled) {
+            playAlarmSound(alarmSound);
+          }
+          // Show in-app notification
+          setNotification({ id, title });
+        }
+      }
+      if (msg.type === 'COMPLETE_TASK') {
+        const { id } = msg.payload;
+        toggleTask(id);
+      }
+    });
+    return unsubscribe;
+  }, [soundEnabled, alarmSound]);
 
   // Apply theme/font
   useEffect(() => { document.documentElement.setAttribute("data-theme", theme); }, [theme]);
@@ -94,7 +125,7 @@ export default function TaskApp() {
   const handleSoundChange = (s) => { setSoundEnabled(s); savePrefs({ theme, font, sound_enabled: s, alarm_sound: alarmSound }); };
   const handleAlarmChange = (a) => { setAlarmSound(a); savePrefs({ theme, font, sound_enabled: soundEnabled, alarm_sound: a }); };
 
-  // Reminders
+  // Reminders - fallback for when SW is not available or tab is active
   const checkReminders = useCallback(() => {
     const now = Date.now();
     tasks.forEach((task) => {
@@ -102,26 +133,24 @@ export default function TaskApp() {
         const diff = (new Date(task.datetime).getTime() - now) / 60000;
         if (diff <= 1 && diff > -60) {
           const nType = task.notification_type || "both";
-          if (nType === "alarm" || nType === "both") {
-            if (soundEnabled) playAlarmSound(alarmSound);
-          }
-          if (nType === "notification" || nType === "both") {
+          if (nType !== "none") {
+            if ((nType === "alarm" || nType === "both") && soundEnabled) playAlarmSound(alarmSound);
             setNotification({ id: task.id, title: task.title });
-            if ("Notification" in window && window.Notification.permission === "granted") {
-              new window.Notification("Today Task", { body: task.title });
+            // Native notification fallback (if SW didn't fire it)
+            if ((nType === "notification" || nType === "both") && "Notification" in window && window.Notification.permission === "granted") {
+              new window.Notification("Today Task", { body: task.title, tag: `task-${task.id}` });
             }
           }
-          if (nType === "alarm") {
-            setNotification({ id: task.id, title: task.title });
-          }
           notifiedRef.current.add(task.id);
+          clearReminderFromSW(task.id);
         }
       }
     });
   }, [tasks, soundEnabled, alarmSound]);
 
+  // Request notification permission on mount
   useEffect(() => {
-    if ("Notification" in window && window.Notification.permission === "default") window.Notification.requestPermission();
+    requestNotificationPermission().then(p => setNotifPermission(p));
   }, []);
 
   useEffect(() => {
@@ -213,6 +242,18 @@ export default function TaskApp() {
             </button>
           </div>
         </header>
+
+        {/* Notification Permission Banner */}
+        {notifPermission !== 'granted' && (
+          <div className="notif-banner" data-testid="notif-permission-banner">
+            <BellRing size={18} />
+            <span>Activa las notificaciones para recibir recordatorios en segundo plano</span>
+            <button className="notif-banner-btn" onClick={async () => {
+              const p = await requestNotificationPermission();
+              setNotifPermission(p);
+            }} data-testid="enable-notifications-btn">Activar</button>
+          </div>
+        )}
 
         {/* Task Form */}
         <TaskForm onAdd={addTask} isPremium={isPremium} />

@@ -889,6 +889,38 @@
 .sub-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 .sub-note { font-size: 0.7rem; color: var(--muted); margin: 0.75rem 0 0 0; }
 
+/* ========== NOTIFICATION PERMISSION BANNER ========== */
+.notif-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 1rem;
+  background-color: var(--card);
+  border: 2px solid var(--reminder-indicator);
+  border-radius: 0.75rem;
+  margin-bottom: 1rem;
+  font-size: 0.8rem;
+  color: var(--text);
+  animation: fadeIn 0.3s ease-out;
+}
+.notif-banner svg { color: var(--reminder-indicator); flex-shrink: 0; }
+.notif-banner span { flex: 1; }
+.notif-banner-btn {
+  padding: 0.35rem 0.75rem;
+  background-color: var(--reminder-indicator);
+  color: white;
+  border: 2px solid var(--border);
+  border-radius: 2rem;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.7rem;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 2px 2px 0 0 var(--border);
+  transition: all 0.15s ease;
+}
+.notif-banner-btn:hover { transform: translateY(-1px); }
+
 /* ========== MOBILE FIXES ========== */
 @media (max-width: 480px) {
   .app-header { padding: 0.75rem 1rem; }
