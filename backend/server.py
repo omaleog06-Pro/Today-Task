@@ -73,10 +73,12 @@ async def check_brute_force(identifier: str):
     record = await db.login_attempts.find_one({"identifier": identifier})
     if record and record.get("attempts", 0) >= 5:
         lockout_until = record.get("lockout_until")
-        if lockout_until and datetime.now(timezone.utc) < lockout_until:
-            raise HTTPException(status_code=429, detail="Too many failed attempts. Try again in 15 minutes.")
-        else:
-            await db.login_attempts.delete_one({"identifier": identifier})
+        if lockout_until:
+            if lockout_until.tzinfo is None:
+                lockout_until = lockout_until.replace(tzinfo=timezone.utc)
+            if datetime.now(timezone.utc) < lockout_until:
+                raise HTTPException(status_code=429, detail="Too many failed attempts. Try again in 15 minutes.")
+        await db.login_attempts.delete_one({"identifier": identifier})
 
 async def record_failed_attempt(identifier: str):
     record = await db.login_attempts.find_one({"identifier": identifier})
